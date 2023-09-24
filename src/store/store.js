@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { rootReducer } from './root-reducer';
 import logger from 'redux-logger';
 
@@ -8,7 +8,12 @@ const middleWares = [process.env.NODE_ENV === 'development' && logger].filter(
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: middleWares,
+  middleware: [
+    ...getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+    ...middleWares,
+  ],
 });
 
 // import { compose, createStore, applyMiddleware } from 'redux';
